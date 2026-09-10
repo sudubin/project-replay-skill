@@ -1,0 +1,26 @@
+workflow:
+  name: example-replay
+  stop_on_error: true
+  steps:
+    - name: preprocess
+      cwd: /data/projects/example-project
+      command:
+        - "{python}"
+        - scripts/preprocess.py
+        - --config
+        - config.yaml
+
+    - name: evaluate
+      cwd: /data/projects/example-project
+      command:
+        - "{python}"
+        - scripts/evaluate.py
+        - --config
+        - config.yaml
+
+  validations:
+    - type: json_numeric
+      file: /data/projects/example-project/results/metrics.json
+      key: auroc
+      expected: 0.873
+      tolerance: 0.003
