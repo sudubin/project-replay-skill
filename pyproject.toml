@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "project-replay-skill"
+version = "0.1.0"
+description = "Replay historical projects inside their original execution environment, with fingerprinting and minimal repair."
+requires-python = ">=3.9"
+dependencies = ["PyYAML>=6.0"]
+
+[project.scripts]
+project-replay = "project_replay.cli:main"
