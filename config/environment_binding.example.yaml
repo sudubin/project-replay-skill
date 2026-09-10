@@ -1,0 +1,53 @@
+environment:
+  id: env://example-project
+
+  binding:
+    host: local
+    type: conda
+    prefix: /home/user/miniconda3/envs/example-project
+    python: /home/user/miniconda3/envs/example-project/bin/python
+    project_root: /data/projects/example-project
+    working_directory: /data/projects/example-project
+
+  manifest:
+    python: "3.10.13"
+    packages:
+      numpy: "1.26.4"
+      pandas: "2.1.4"
+      scikit-learn: "1.3.2"
+    env_vars:
+      CUDA_VISIBLE_DEVICES: "0"
+      TOKENIZERS_PARALLELISM: "false"
+
+  paths:
+    raw_data: /data/datasets/example/raw
+    processed_data: /data/projects/example-project/data/processed
+    checkpoints: /data/projects/example-project/checkpoints
+    cache: /data/projects/example-project/cache
+    outputs: /data/projects/example-project/results
+
+  critical_files:
+    - path: /data/projects/example-project/config.yaml
+      sha256: null
+
+  fingerprint:
+    pip_freeze_sha256: null
+    conda_explicit_sha256: null
+
+  repair_policy:
+    mode: conservative
+    auto_allowed:
+      - create_missing_directory
+      - install_missing_python_package_exact_version
+    require_confirmation:
+      - downgrade_python_package
+      - replace_drifted_python_package
+      - reinstall_torch
+      - change_behavioral_env_var
+    forbidden:
+      - silently_replace_environment
+      - silently_change_major_version
+      - modify_cuda
+      - modify_system_library
+      - overwrite_checkpoint
+      - mutate_raw_data
